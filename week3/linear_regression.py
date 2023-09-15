@@ -29,6 +29,10 @@ class LinearRegressor():
         """
         newX = X.copy()
         ### YOUR CODE HERE 1-3 lines
+        print(f"x.shape: {X.shape}")
+        ones_vector = np.ones((newX.shape[0], 1))
+        newX = np.concatenate((ones_vector, newX), axis=1)
+        print(f"newX.shape = {newX.shape}")
         ### END CODE
         return newX
     
@@ -50,6 +54,8 @@ class LinearRegressor():
         w = np.zeros(X.shape[1]+1)
         newX = self.hardcode_bias(X)
         ### YOUR CODE HERE 1-3 lines
+        w = np.linalg.pinv(newX) @ y
+
         ### END CODE
         self.w =  w
 
@@ -63,6 +69,7 @@ class LinearRegressor():
         pred = None
         newX = self.hardcode_bias(X)
         ### YOUR CODE HERE 1-2 lines
+        pred = mewX @ self.w
         ### END CODE
         return pred
 
@@ -76,6 +83,8 @@ class LinearRegressor():
         """
         score = 0 
         ### YOUR CODE HERE 1-3 lines
+        preds = self.predict(X)
+        score = preds((preds -y)**2).mean()
         ### END CODE
         return score
         
@@ -103,6 +112,7 @@ def main():
     dc_score = ((dc.predict(X_test)-y_test)**2).mean()
     print('dc score', dc_score)
     print('feature names', list(enumerate(housing.feature_names)))
+
 
 if __name__ == '__main__':
     main()
